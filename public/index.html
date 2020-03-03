@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+
+<head>
     <meta charset="utf-8" />
     <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico" />
-    <script src="https://gitcdn.xyz/repo/meetcric/mandelbrot-fractal-custom/master/fractal-image.js"></script>
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1, shrink-to-fit=no"
-    />
+    <!-- <script src="https://gitcdn.xyz/repo/meetcric/mandelbrot-fractal-custom/master/fractal-image.js"></script> -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <meta name="theme-color" content="#000000" />
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+
     <!--
       manifest.json provides metadata used when your web app is installed on a
       user's mobile device or desktop. See https://developers.google.com/web/fundamentals/web-app-manifest/
@@ -24,11 +24,15 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>GSOC 19 : Fractal Valley</title>
-  </head>
-  <body>
+</head>
+
+<body>
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <!-- <fractal-image style="display:none"></fractal-image> -->
     <div id="root"></div>
+    <script type="text/javascript" src="./fractal-image/runtime.js"></script>
+    <script type="text/javascript" src="./fractal-image/polyfills.js"></script>
+    <script type="text/javascript" src="./fractal-image/main.js"></script>
     <!--
       This HTML file is a template.
       If you open it directly in the browser, you will see an empty page.
@@ -39,5 +43,6 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
-  </body>
+</body>
+
 </html>

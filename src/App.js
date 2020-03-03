@@ -8,6 +8,7 @@ import {TestView} from './view/test'
 import {Test2View} from './view/test2'
 import { SelectOptionsView } from './view/selectOptions';
 import {HomePage} from './view/home'
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends Component {
   render() {
