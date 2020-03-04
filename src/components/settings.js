@@ -1,10 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Divider } from 'antd';
 import { Form, FormGroup, Jumbotron, Button } from 'react-bootstrap';
-import ReactBootstrapSlider from 'react-bootstrap-slider';
-// import { $ } from "jquery";
-// import 'react-bootstrap-range-slider/dist/react-bootstrap-range-slider.css';
-// import RangeSlider from 'react-bootstrap-range-slider';
 
 export class SettingsComp extends Component {
 
@@ -12,54 +8,132 @@ export class SettingsComp extends Component {
         super(props);
         this.state = {
             renderer: 'cpp',
-            dimension: '',
-            theme: '',
-            colors: '2',
-            textureDarken: 'true',
-            textureSmooth: 'false',
-            textureStringLights: 'false',
-            textureFanciful: 'false',
-            textureShadow: 'false',
-            textureRoundedEdges: 'false',
+            dimension: '2d',
+
+            theme: '0',
+
+            electrify: 'false',
+            color_scheme: '2',
+            color_shift: '0',
+
+            // TEXTURE
+            darken: 'true',
+            smooth: 'false',
+            string_lights: 'false',
+            fanciful: 'false',
+            shadow: 'false',
+            rounded_edges: 'false',
+
             edge: '0',
-            adjustmentsMaxDepth: 1225,
-            motion: ''
+
+            // ADJUSTMENTS
+            sqrt_depth: "35",
+            var1: "0",
+            var2: "0",
+            brighten: "0",
+            eye_adjust: "0",
+
+            debug: 'false',
+            full_image: 'true'
         }
         this.handleChange = this.handleChange.bind(this);
-        this.handleSlider = this.handleSlider.bind(this);
+        this.hideElements = this.hideElements.bind(this);
+        this.getModes = this.getModes.bind(this);
+        this.getTexture = this.getTexture.bind(this);
+        this.getColors = this.getColors.bind(this);
         this.getUrl = this.getUrl.bind(this);
-        this.slider = {
-            step : 1,
-            min : 25,
-            max : 10000,
-            changeValue : 1225
-        }
     }
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
     }
 
-    handleSlider(event) {
-        console.log("changed");
+    getModes() {
+        return (((this.state.renderer == "python") ? 1 : 0) << 0) |
+            (((this.state.renderer == "cpp") ? 1 : 0) << 1) |
+            (((this.state.renderer == "fpga") ? 1 : 0) << 3) |
+            (((this.state.full_image == "true") ? 1 : 0) << 6) |
+            (((this.state.smooth == 'true') ? 1 : 0) << 7);
+    }
+
+    getTexture() {
+        return (((this.state.string_lights == 'true') ? 1 : 0) << 0) |
+        (((this.state.fanciful == 'true') ? 1 : 0) << 1) |
+        (((this.state.shadow == 'true') ? 1 : 0) << 2) |
+        (((this.state.rounded_edges == 'true') ? 1 : 0) << 3);
+    }
+
+    getColors() {
+        return (parseInt(this.state.color_scheme)) | 
+        (parseInt(this.state.color_shift) << 16) | 
+        (((this.state.electrify == 'true') ? 1 : 0) << 25);
     }
 
     getUrl() {
-        // return "{'colors':" + this.state.colors + ", 'edge':" + this.state.edge + "}";
         var tmpParam = {
-            max_depth: parseInt(this.state.adjustmentsMaxDepth),
+            max_depth: parseInt(this.state.sqrt_depth) * parseInt(this.state.sqrt_depth),
             renderer: this.state.renderer,
-            darken: (this.state.textureDarken == 'true') ? true : false,
-            colors: parseInt(this.state.colors),
-            edge: parseInt(this.state.edge)
+            darken: (this.state.darken == 'true') ? true : false,
+            colors: this.getColors(),
+            edge: parseInt(this.state.edge),
+            modes: this.getModes(),
+            texture: this.getTexture(),
+            three_d: ((this.state.dimension == '2d') ? false : true),
+            eye_adjust: parseInt(this.state.eye_adjust),
+            var1: parseInt(this.state.var1),
+            var2: parseInt(this.state.var2),
+            brighten: parseInt(this.state.brighten)
         }
         return JSON.stringify(tmpParam);
-        // return "{%22x%22:0.021136081508074223,%22y%22:0.055482213958694834,%22pix_x%22:0.014303994905745361,%22pix_y%22:0.014303994905745361,%22width%22:512,%22height%22:512,%22max_depth%22:1225,%22test_flags%22:0,%22darken%22:true,%22brighten%22:0,%22modes%22:66,%22colors%22:" + this.state.colors + ",%22texture%22:0,%22edge%22:" + this.state.edge + ",%22var1%22:0,%22var2%22:0,%22renderer%22:%22cpp%22,%22theme%22:0,%22test_vars%22:[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],%22three_d%22:false,%22offset_w%22:0,%22offset_h%22:0,%22eye_sep%22:0,%22eye_adjust%22:0}";
+    }
+
+    hideElements() {
+        // DARKEN ONLY
+        var elements = document.getElementsByClassName("darken-only");
+        for (let index = 0; index < elements.length; index++) {
+            elements[index].hidden = (this.state.darken == 'true') ? false : true;
+        }
+
+        // C ONLY 
+        var elements = document.getElementsByClassName("c-only");
+        for (let index = 0; index < elements.length; index++) {
+            elements[index].hidden = (this.state.renderer == 'cpp') ? false : true;
+        }
+
+        // 3-D ONLY 
+        var elements = document.getElementsByClassName("three-d-only");
+        for (let index = 0; index < elements.length; index++) {
+            elements[index].hidden = (this.state.dimension == '2d') ? true : false;
+        }
+
+        // DEBUG ONLY
+        var elements = document.getElementsByClassName("debug-only");
+        for (let index = 0; index < elements.length; index++) {
+            elements[index].hidden = (this.state.debug == 'true') ? false : true;
+        }
+
+        // FULL IMG ONLY
+        var elements = document.getElementsByClassName("full-img-only");
+        for (let index = 0; index < elements.length; index++) {
+            elements[index].hidden = (this.state.full_image == 'true') ? false : true;
+        }
+
+        // NOT PYTHON 
+        var elements = document.getElementsByClassName("not-python");
+        for (let index = 0; index < elements.length; index++) {
+            elements[index].hidden = (this.state.renderer == 'python') ? true : false;
+        }
+
+        // NOT THEMED 
+        var elements = document.getElementsByClassName("not-themed");
+        for (let index = 0; index < elements.length; index++) {
+            elements[index].hidden = (this.state.theme == '1') ? true : false;
+        }
     }
 
     render() {
         return (
-            <Row className="content-mp" style={{ height: '80vh' }}>
+            <Row className="content-mp" style={{ height: '80vh' }} onChange={this.hideElements()}>
                 <Col sm={{ span: 5, offset: 1 }} mg={{ span: 17, offset: 1 }} lg={{ span: 17, offset: 1 }} xl={{ span: 17, offset: 1 }} style={{ margin: '2%', position: 'fixed' }} className="content-1-mp">
                     <Jumbotron align="center" style={{ backgroundColor: 'white', height: '80vh' }}>
                         <fractal-image settings={this.getUrl()}></fractal-image>
@@ -71,21 +145,19 @@ export class SettingsComp extends Component {
                     <Jumbotron style={{ margin: '2%', paddingTop: '3%', backgroundColor: 'white' }}>
                         <h3 align='center'>Fractal Parameters</h3>
                         <Divider />
-                        <ReactBootstrapSlider
-                                        value={this.state.adjustmentsMaxDepth}
-                                        change={this.handleSlider}
-                                        slideStop={this.handleSlider}
-                                        step={this.slider.step}
-                                        max={this.slider.max}
-                                        min={this.slider.min}
-                                        orientation="horizontal"
-                                        reversed={true}
-                                    />
                         <Form style={{ margin: '5%' }}>
                             {/* Renderer Selection */}
                             <Form.Row>
                                 <Form.Group as={Col}>
                                     <Form.Label style={{ fontWeight: '700' }}>Renderer</Form.Label><br></br>
+                                    <Form.Check
+                                        type="checkbox"
+                                        label="Tiled"
+                                        name="full_image"
+                                        value={this.state.full_image == 'true' ? 'false' : 'true'}
+                                        onChange={this.handleChange}
+                                    />
+
                                     <Form.Check
                                         type="radio"
                                         inline
@@ -115,227 +187,303 @@ export class SettingsComp extends Component {
                             </Form.Row>
 
                             {/* Dimension Selection */}
-                            <Form.Row>
-                                <Form.Group as={Col}>
-                                    <Form.Label style={{ fontWeight: '700' }}>3-D</Form.Label><br></br>
-                                    <Form.Check
-                                        type="radio"
-                                        defaultChecked
-                                        inline
-                                        label="2-D"
-                                        name="dimension"
-                                        value="2-D"
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        inline
-                                        label="3-D"
-                                        name="dimension"
-                                        value="3-D"
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        inline
-                                        label="Stereo 3-D"
-                                        name="dimension"
-                                        value="3-D"
-                                        onChange={this.handleChange}
-                                    />
-                                </Form.Group>
-                            </Form.Row>
+                            <div className="full-img-only">
+                                <Form.Row>
+                                    <Form.Group as={Col}>
+                                        <Form.Label style={{ fontWeight: '700' }}>3-D</Form.Label><br></br>
+                                        <Form.Check
+                                            type="radio"
+                                            defaultChecked
+                                            inline
+                                            label="2-D"
+                                            name="dimension"
+                                            value="2d"
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            inline
+                                            label="3-D"
+                                            name="dimension"
+                                            value="3d"
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            inline
+                                            label="Stereo 3-D"
+                                            name="dimension"
+                                            value="s3d"
+                                            onChange={this.handleChange}
+                                        />
+                                    </Form.Group>
+                                </Form.Row>
+                            </div>
 
                             {/* Theme Selection */}
-                            <Form.Row>
-                                <Form.Group as={Col}>
-                                    <Form.Label style={{ fontWeight: '700' }}>Theme</Form.Label><br></br>
-                                    <Form.Check
-                                        type="radio"
-                                        defaultChecked
-                                        inline
-                                        label="Customize"
-                                        name="theme"
-                                        value="Customize"
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        inline
-                                        label="Christmas"
-                                        name="theme"
-                                        value="Christmas"
-                                        onChange={this.handleChange}
-                                    />
-                                </Form.Group>
-                            </Form.Row>
+                            <div className="c-only">
+                                <Form.Row>
+                                    <Form.Group as={Col}>
+                                        <Form.Label style={{ fontWeight: '700' }}>Theme</Form.Label><br></br>
+                                        <Form.Check
+                                            type="radio"
+                                            defaultChecked
+                                            inline
+                                            label="Customize"
+                                            name="theme"
+                                            value="0"
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            inline
+                                            label="Christmas"
+                                            name="theme"
+                                            value="1"
+                                            onChange={this.handleChange}
+                                        />
+                                    </Form.Group>
+                                </Form.Row>
+                            </div>
 
                             {/* Color Selection */}
-                            <Form.Row>
-                                <Form.Group as={Col}>
-                                    <Form.Label style={{ fontWeight: '700' }}>Colors</Form.Label><br></br>
-                                    <Form.Check
-                                        type="radio"
-                                        defaultChecked
-                                        label="Medium Gradient"
-                                        name="colors"
-                                        value="2"
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        label="Random"
-                                        name="colors"
-                                        value="1"
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        label="Gradual Gradient"
-                                        name="colors"
-                                        value="0"
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        label="Rainbow"
-                                        name="colors"
-                                        value="3"
-                                        onChange={this.handleChange}
-                                    />
-                                </Form.Group>
-                            </Form.Row>
+                            <div className="not-python not-themed">
+                                <Form.Row>
+                                    <Form.Group as={Col}>
+                                        <Form.Label style={{ fontWeight: '700' }}>Colors</Form.Label><br></br>
+                                        <Form.Check
+                                            type="radio"
+                                            defaultChecked
+                                            label="Medium Gradient"
+                                            name="color_scheme"
+                                            value="2"
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            label="Random"
+                                            name="color_scheme"
+                                            value="1"
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            label="Gradual Gradient"
+                                            name="color_scheme"
+                                            value="0"
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            label="Rainbow"
+                                            name="color_scheme"
+                                            value="3"
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Check
+                                            inline
+                                            type="range"
+                                            min="0"
+                                            max="99"
+                                            label="Color Shift"
+                                            name="color_shift"
+                                            value={this.state.color_shift}
+                                            onChange={this.handleChange}
+                                        />
+                                    </Form.Group>
+                                </Form.Row>
+                            </div>
 
                             {/* Texture Selection */}
-                            <Form.Row>
-                                <Form.Group as={Col}>
-                                    <Form.Label style={{ fontWeight: '700' }}>Texture</Form.Label><br></br>
-                                    <Form.Check
-                                        type="checkbox"
-                                        defaultChecked
-                                        label="Darken"
-                                        name="textureDarken"
-                                        value={this.state.textureDarken == 'true' ? 'false' : 'true'}
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="checkbox"
-                                        label="Smooth"
-                                        name="textureSmooth"
-                                        value={this.state.textureSmooth == 'true' ? 'false' : 'true'}
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="checkbox"
-                                        label="StringLights"
-                                        name="textureStringLights"
-                                        value={this.state.textureStringLights == 'true' ? 'false' : 'true'}
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="checkbox"
-                                        label="Fanciful"
-                                        name="textureFanciful"
-                                        value={this.state.textureFanciful == 'true' ? 'false' : 'true'}
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="checkbox"
-                                        label="Shadow"
-                                        name="textureShadow"
-                                        value={this.state.textureShadow == 'true' ? 'false' : 'true'}
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="checkbox"
-                                        label="Rounded Edges"
-                                        name="textureRoundedEdges"
-                                        value={this.state.textureRoundedEdges == 'true' ? 'false' : 'true'}
-                                        onChange={this.handleChange}
-                                    />
-                                </Form.Group>
-                            </Form.Row>
+                            <div className="not-themed">
+                                <Form.Row>
+                                    <Form.Group as={Col}>
+                                        <Form.Label style={{ fontWeight: '700' }}>Texture</Form.Label><br></br>
+                                        <Form.Check
+                                            type="checkbox"
+                                            defaultChecked
+                                            label="Darken"
+                                            name="darken"
+                                            value={this.state.darken == 'true' ? 'false' : 'true'}
+                                            onChange={this.handleChange}
+                                        />
+                                        <div className="c-only">
+                                            <Form.Check
+                                                type="checkbox"
+                                                label="Smooth"
+                                                name="smooth"
+                                                value={this.state.smooth == 'true' ? 'false' : 'true'}
+                                                onChange={this.handleChange}
+                                            />
+                                            <Form.Check
+                                                type="checkbox"
+                                                label="StringLights"
+                                                name="string_lights"
+                                                value={this.state.string_lights == 'true' ? 'false' : 'true'}
+                                                onChange={this.handleChange}
+                                            />
+                                            <Form.Check
+                                                type="checkbox"
+                                                label="Fanciful"
+                                                name="fanciful"
+                                                value={this.state.fanciful == 'true' ? 'false' : 'true'}
+                                                onChange={this.handleChange}
+                                            />
+                                            <Form.Check
+                                                type="checkbox"
+                                                label="Shadow"
+                                                name="shadow"
+                                                value={this.state.shadow == 'true' ? 'false' : 'true'}
+                                                onChange={this.handleChange}
+                                            />
+                                            <Form.Check
+                                                type="checkbox"
+                                                label="Rounded Edges"
+                                                name="rounded_edges"
+                                                value={this.state.rounded_edges == 'true' ? 'false' : 'true'}
+                                                onChange={this.handleChange}
+                                            />
+                                        </div>
+                                    </Form.Group>
+                                </Form.Row>
+                            </div>
 
                             {/* Edge Selection */}
-                            <Form.Row>
-                                <Form.Group as={Col}>
-                                    <Form.Label style={{ fontWeight: '700' }}>Edge</Form.Label><br></br>
-                                    <Form.Check
-                                        type="radio"
-                                        defaultChecked
-                                        inline
-                                        label="Curved"
-                                        name="edge"
-                                        value="0"
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        inline
-                                        label="Bumpy"
-                                        name="edge"
-                                        value="1"
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        inline
-                                        label="Villi"
-                                        name="edge"
-                                        value="2"
-                                        onChange={this.handleChange}
-                                    />
-                                </Form.Group>
-                            </Form.Row>
+                            <div className="not-themed c-only">
+                                <Form.Row>
+                                    <Form.Group as={Col}>
+                                        <Form.Label style={{ fontWeight: '700' }}>Edge</Form.Label><br></br>
+                                        <Form.Check
+                                            type="radio"
+                                            defaultChecked
+                                            inline
+                                            label="Curved"
+                                            name="edge"
+                                            value="0"
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            inline
+                                            label="Bumpy"
+                                            name="edge"
+                                            value="1"
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            inline
+                                            label="Villi"
+                                            name="edge"
+                                            value="2"
+                                            onChange={this.handleChange}
+                                        />
+                                    </Form.Group>
+                                </Form.Row>
+                            </div>
 
                             {/* Adjustment Selection */}
-                            <Form.Row>
-                                <Form.Group as={Col}>
-                                    <Form.Label style={{ fontWeight: '700' }}>Adjustments</Form.Label><br></br>
-                                    <Form.Check
-                                        type="radio"
-                                        inline
-                                        label="Not yet done"
-                                        name="adjustment"
-                                        value="not yet done"
-                                        onChange={this.handleChange}
-                                    />
-                                    {/* <ReactBootstrapSlider
-                                        value={this.state.adjustmentsMaxDepth}
-                                        change={this.handleSlider}
-                                        slideStop={this.handleSlider}
-                                        step={this.slider.step}
-                                        max={this.slider.max}
-                                        min={this.slider.min}
-                                        orientation="horizontal"
-                                        reversed={true}
-                                    /> */}
-                                </Form.Group>
-                            </Form.Row>
+                            <div className="not-themed">
+                                <Form.Row>
+                                    <Form.Group as={Col}>
+                                        <Form.Label style={{ fontWeight: '700' }}>Adjustments</Form.Label><br></br>
+                                        <Form.Check
+                                            inline
+                                            type="range"
+                                            min="5"
+                                            max="100"
+                                            label="Depth"
+                                            name="sqrt_depth"
+                                            value={this.state.sqrt_depth}
+                                            onChange={this.handleChange}
+                                        />
+                                        <div className="not-python">
+                                            <div className="c-only">
+                                                <Form.Check
+                                                    inline
+                                                    type="range"
+                                                    min="-100"
+                                                    max="100"
+                                                    label="Morph 1"
+                                                    name="var1"
+                                                    value={this.state.var1}
+                                                    onChange={this.handleChange}
+                                                />
+                                                <Form.Check
+                                                    inline
+                                                    type="range"
+                                                    min="-100"
+                                                    max="100"
+                                                    label="Morph 2"
+                                                    name="var2"
+                                                    value={this.state.var2}
+                                                    onChange={this.handleChange}
+                                                />
+                                            </div>
+                                            <div className="darken-only">
+                                                <Form.Check
+                                                    inline
+                                                    type="range"
+                                                    min="-200"
+                                                    max="200"
+                                                    label="Dark/Morph"
+                                                    name="brighten"
+                                                    value={this.state.brighten}
+                                                    onChange={this.handleChange}
+                                                />
+                                            </div>
+                                            <div className="three-d-only" hidden={true}>
+                                                <Form.Check
+                                                    inline
+                                                    type="range"
+                                                    min="-100"
+                                                    max="100"
+                                                    label="Z Adjust"
+                                                    name="eye_adjust"
+                                                    value={this.state.eye_adjust}
+                                                    onChange={this.handleChange}
+                                                />
+                                            </div>
+                                        </div>
+                                    </Form.Group>
+                                </Form.Row>
+                            </div>
 
                             {/* Motion Selection */}
-                            <Form.Row>
-                                <Form.Group as={Col}>
-                                    <Form.Label style={{ fontWeight: '700' }}>Motion</Form.Label><br></br>
-                                    <Form.Check
-                                        type="radio"
-                                        defaultChecked
-                                        inline
-                                        label="Position"
-                                        name="motion"
-                                        value="position"
-                                        onChange={this.handleChange}
-                                    />
-                                    <Form.Check
-                                        type="radio"
-                                        inline
-                                        label="Velocity"
-                                        name="motion"
-                                        value="velocity"
-                                        onChange={this.handleChange}
-                                    />
-                                </Form.Group>
-                            </Form.Row>
+                            <div className="full-img-only">
+                                <Form.Row>
+                                    <Form.Group as={Col}>
+                                        <Form.Label style={{ fontWeight: '700' }}>Motion</Form.Label><br></br>
+                                        <Form.Check
+                                            type="radio"
+                                            defaultChecked
+                                            inline
+                                            label="Position"
+                                            name="motion"
+                                            value="position"
+                                            onChange={this.handleChange}
+                                        />
+                                        <Form.Check
+                                            type="radio"
+                                            inline
+                                            label="Velocity"
+                                            name="motion"
+                                            value="velocity"
+                                            onChange={this.handleChange}
+                                        />
+                                        <div className="debug-only" hidden={true}>
+                                            <Form.Check
+                                                type="radio"
+                                                inline
+                                                label="Acceleration"
+                                                name="motion"
+                                                value="acceleration"
+                                                onChange={this.handleChange}
+                                            />
+                                        </div>
+                                    </Form.Group>
+                                </Form.Row>
+                            </div>
 
                         </Form>
                     </Jumbotron >
