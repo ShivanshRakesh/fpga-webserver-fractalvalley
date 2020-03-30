@@ -4,7 +4,7 @@ This React webapp is a revamped version of http://fractalvalley.net.
 The front-end uses the standalone component <fractal-image> for making the fractal image requests to the server.
 
 ## Local Setup
-In the project directory:
+* Clone this repository and `cd` into it.
 * Run `npm install` to install the dependencies.
 * Run `npm start` to start a development server.
 * Navigate to http://localhost:3000/ to explore the webapp in the browser.
