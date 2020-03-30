@@ -1,6 +1,7 @@
-# FractalValley Webapp
+# FractalValley Webapp [WIP]
 
-This React webapp is a revamped version of http://fractalvalley.net. [WIP]
+This React webapp is a revamped version of http://fractalvalley.net.
+The front-end uses the standalone component <fractal-image> for making the fractal image requests to the server.
 
 ## Local Setup
 In the project directory:
@@ -8,9 +9,13 @@ In the project directory:
 * Run `npm start` to start a development server.
 * Navigate to http://localhost:3000/ to explore the webapp in the browser.
 
-NOTE:
+**NOTE:**
 * The page will reload if you make edits.<br>
 * You will also see any lint errors in the console.
+
+## Other Commands
+
+To be run in the project directory:
 
 #### `npm test`
 
