@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Divider } from 'antd';
 import { Form, FormGroup, Jumbotron, Button } from 'react-bootstrap';
-
 export class SettingsComp extends Component {
 
     constructor(props) {
@@ -11,6 +10,7 @@ export class SettingsComp extends Component {
             dimension: '2d',
 
             theme: '0',
+            cycle: 0,
 
             electrify: 'false',
             color_scheme: '2',
@@ -33,19 +33,30 @@ export class SettingsComp extends Component {
             brighten: "0",
             eye_adjust: "0",
 
+            motion: "position",
             debug: 'false',
-            full_image: 'true'
+            full_image: 'true',
         }
+
         this.handleChange = this.handleChange.bind(this);
         this.hideElements = this.hideElements.bind(this);
         this.getModes = this.getModes.bind(this);
         this.getTexture = this.getTexture.bind(this);
         this.getColors = this.getColors.bind(this);
-        this.getUrl = this.getUrl.bind(this);
+        this.getSettings = this.getSettings.bind(this);
+        this.changeCycle = this.changeCycle.bind(this);
     }
 
     handleChange(event) {
         this.setState({ [event.target.name]: event.target.value });
+        if(event.target.name == 'theme'){
+            if(event.target.value == '1')
+                var timer = setInterval(this.changeCycle, 2000);
+            else{
+                this.state.cycle = 0;
+                window.clearInterval(timer);
+            }
+        }
     }
 
     getModes() {
@@ -58,18 +69,18 @@ export class SettingsComp extends Component {
 
     getTexture() {
         return (((this.state.string_lights == 'true') ? 1 : 0) << 0) |
-        (((this.state.fanciful == 'true') ? 1 : 0) << 1) |
-        (((this.state.shadow == 'true') ? 1 : 0) << 2) |
-        (((this.state.rounded_edges == 'true') ? 1 : 0) << 3);
+            (((this.state.fanciful == 'true') ? 1 : 0) << 1) |
+            (((this.state.shadow == 'true') ? 1 : 0) << 2) |
+            (((this.state.rounded_edges == 'true') ? 1 : 0) << 3);
     }
 
     getColors() {
-        return (parseInt(this.state.color_scheme)) | 
-        (parseInt(this.state.color_shift) << 16) | 
-        (((this.state.electrify == 'true') ? 1 : 0) << 25);
+        return (parseInt(this.state.color_scheme)) |
+            (parseInt(this.state.color_shift) << 16) |
+            (((this.state.electrify == 'true') ? 1 : 0) << 25);
     }
 
-    getUrl() {
+    getSettings() {
         var tmpParam = {
             max_depth: parseInt(this.state.sqrt_depth) * parseInt(this.state.sqrt_depth),
             renderer: this.state.renderer,
@@ -82,9 +93,17 @@ export class SettingsComp extends Component {
             eye_adjust: parseInt(this.state.eye_adjust),
             var1: parseInt(this.state.var1),
             var2: parseInt(this.state.var2),
-            brighten: parseInt(this.state.brighten)
+            brighten: parseInt(this.state.brighten),
+            theme: parseInt(this.state.theme),
+            cycle: this.state.cycle,
         }
+        console.log(JSON.stringify(tmpParam));
         return JSON.stringify(tmpParam);
+    }
+
+    changeCycle() {
+        this.setState({'cycle': (this.state.cycle + 1)%6});
+        console.log("cycle" + this.state.cycle);
     }
 
     hideElements() {
@@ -130,18 +149,22 @@ export class SettingsComp extends Component {
             elements[index].hidden = (this.state.theme == '1') ? true : false;
         }
     }
-
+    
     render() {
         return (
             <Row className="content-mp" style={{ height: '80vh' }} onChange={this.hideElements()}>
-                <Col sm={{ span: 5, offset: 1 }} mg={{ span: 17, offset: 1 }} lg={{ span: 17, offset: 1 }} xl={{ span: 17, offset: 1 }} style={{ margin: '2%', position: 'fixed' }} className="content-1-mp">
+                <Col sm={{ span: 17, offset: 1 }} mg={{ span: 17, offset: 1 }} lg={{ span: 17, offset: 1 }} xl={{ span: 17, offset: 1 }} style={{ margin: '2%', position: 'fixed' }} className="content-1-mp">
                     <Jumbotron align="center" style={{ backgroundColor: 'white', height: '80vh' }}>
-                        <fractal-image settings={this.getUrl()}></fractal-image>
-                        {/* <img src={this.getUrl()} alt="" /> */}
+                        <fractal-image stereo={this.state.dimension == 's3d' ? true : false} motion={this.state.motion} settings={this.getSettings()}></fractal-image>
+                    </Jumbotron>
+                    <Jumbotron style={{ paddingTop: 0 }}>
+                    <Button>Download Image</Button>&nbsp;&nbsp;&nbsp;
+                    <Button>Open Image</Button>&nbsp;&nbsp;&nbsp;
+                    <Button>Reset Image</Button>
                     </Jumbotron>
                 </Col>
 
-                <Col sm={{ span: 5, offset: 1 }} mg={{ span: 6, offset: 0 }} lg={{ span: 6, offset: 0 }} xl={{ span: 6, offset: 0 }} style={{ height: '100vh', marginLeft: 'auto', overflowY: 'scroll' }} className="content-2-mp">
+                <Col sm={{ span: 6, offset: 1 }} mg={{ span: 6, offset: 0 }} lg={{ span: 6, offset: 0 }} xl={{ span: 6, offset: 0 }} style={{ height: '100vh', marginLeft: 'auto', overflowY: 'scroll' }} className="content-2-mp">
                     <Jumbotron style={{ margin: '2%', paddingTop: '3%', backgroundColor: 'white' }}>
                         <h3 align='center'>Fractal Parameters</h3>
                         <Divider />
@@ -150,13 +173,13 @@ export class SettingsComp extends Component {
                             <Form.Row>
                                 <Form.Group as={Col}>
                                     <Form.Label style={{ fontWeight: '700' }}>Renderer</Form.Label><br></br>
-                                    <Form.Check
+                                    {/* <Form.Check
                                         type="checkbox"
                                         label="Tiled"
                                         name="full_image"
                                         value={this.state.full_image == 'true' ? 'false' : 'true'}
                                         onChange={this.handleChange}
-                                    />
+                                    /> */}
 
                                     <Form.Check
                                         type="radio"
@@ -484,12 +507,10 @@ export class SettingsComp extends Component {
                                     </Form.Group>
                                 </Form.Row>
                             </div>
-
                         </Form>
                     </Jumbotron >
                 </Col>
             </Row>
-
         )
     }
 }

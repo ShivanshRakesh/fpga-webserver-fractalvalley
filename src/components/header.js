@@ -53,7 +53,7 @@ export class HeaderComp extends Component {
             lg={{ span: 2, offset: 1 }}
             xl={{ span: 2, offset: 1 }}
           >
-            <Link to='/select'>
+            <Link to='/explorer'>
               <Button className="exp-btn">Explorer</Button>
             </Link>
           </Col>
