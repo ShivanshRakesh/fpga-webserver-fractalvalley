@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 import React, { Component } from "react";
-import { Col, Row, Dropdown, Menu, Icon, Avatar } from "antd";
+import { Col, Row } from "antd";
 import { Link } from 'react-router-dom';
 import { Button } from "antd/lib/radio";
 

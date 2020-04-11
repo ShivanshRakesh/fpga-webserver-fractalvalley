@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col, Divider } from 'antd';
-import { SettingsComp, FractalViewer } from '../components/settings';
+import { SettingsComp } from '../components/settings';
 
 export class ExplorerContent extends Component {
     render() {

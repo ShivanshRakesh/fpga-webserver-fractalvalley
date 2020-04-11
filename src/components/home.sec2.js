@@ -31,7 +31,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
 import React, { Component } from "react";
-import { Row, Col, Button } from "antd";
+import { Row, Col } from "antd";
 
 
 
