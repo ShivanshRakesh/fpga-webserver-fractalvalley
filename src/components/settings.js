@@ -314,8 +314,8 @@ export class SettingsComp extends Component {
 
                     {/* Download, Open, Reset Options */}
                     <Jumbotron style={{ paddingTop: 0 }}>
-                        <a id="download-img" href={this.state.img_url} download></a><Button onClick={() => this.downloadImage()}>Download Image</Button>&nbsp;&nbsp;&nbsp;
-                        <a rel="noopener noreferrer" id="open-img" href={this.img_url} target="_blank"></a><Button onClick={() => this.openImage()}>Open Image</Button>&nbsp;&nbsp;&nbsp;
+                        <a id="download-img" href={this.state.img_url} download> </a><Button onClick={() => this.downloadImage()}>Download Image</Button>&nbsp;&nbsp;&nbsp;
+                        <a rel="noopener noreferrer" id="open-img" href={this.img_url} target="_blank"> </a><Button onClick={() => this.openImage()}>Open Image</Button>&nbsp;&nbsp;&nbsp;
                         <Button id="reset-img" onClick={() => this.resetImage()}>Reset Image</Button>
                     </Jumbotron>
                 </Col>
