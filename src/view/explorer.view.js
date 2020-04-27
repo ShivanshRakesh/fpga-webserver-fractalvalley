@@ -32,11 +32,9 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 import React, {Component} from 'react';
 import { HeaderComp } from '../components/header';
-import { ExplorerContent } from './exolorerContainer2.view';
-
+import { ExplorerContent } from './exolorerContainer.view';
 
 export class ExplorerView extends Component {
-
     render(){
         return(
             <div style={{position:'fixed'}}>
