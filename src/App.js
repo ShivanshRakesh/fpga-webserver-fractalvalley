@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Route,Router,Switch} from 'react-router-dom';
+import { Route, Router, Switch } from 'react-router-dom';
 import { historyFV } from './helper/history';
 import { ExplorerView } from './view/explorer.view';
 import '../node_modules/ol/ol.css';
-import {TestView} from './view/test'
-import {Test2View} from './view/test2'
+import { TestView } from './view/test'
+import { Test2View } from './view/test2'
 import { SelectOptionsView } from './view/selectOptions';
-import {HomePage} from './view/home'
-import 'bootstrap/dist/css/bootstrap.min.css';
+import { HomePage } from './view/home'
+import './bootstrap/dist/css/bootstrap.min.css';
 
 class App extends Component {
   render() {
