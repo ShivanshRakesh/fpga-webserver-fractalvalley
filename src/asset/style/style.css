@@ -1,88 +1,112 @@
-@import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+/*
+BSD 3-Clause License
 
-*{
+Copyright (c) 2019, Sanjeet Kishore
+All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions are met:
+
+* Redistributions of source code must retain the above copyright notice, this
+list of conditions and the following disclaimer.
+
+* Redistributions in binary form must reproduce the above copyright notice,
+this list of conditions and the following disclaimer in the documentation
+and/or other materials provided with the distribution.
+
+* Neither the name of the copyright holder nor the names of its
+contributors may be used to endorse or promote products derived from
+this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
+FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+*/
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i');
+* {
     -webkit-tap-highlight-color: transparent !important;
     -webkit-font-smoothing: antialiased !important;
 }
 
-
-.header-mp{
+.header-mp {
     height: 60px;
     background-color: #ffffff !important;
     display: table-cell;
     width: 100vw;
 }
-.logo-mp{
+
+.logo-mp {
     height: 40px;
-    width : 100%;
+    width: 100%;
     background-size: contain;
     background-repeat: no-repeat;
     margin: 10px;
 }
 
-.profile-img-mp{
+.profile-img-mp {
     margin-top: 10px !important;
-    -webkit-box-shadow: 0px 0px 28px 0px rgba(52,49,74,0.32);
-    -moz-box-shadow: 0px 0px 28px 0px rgba(52,49,74,0.32);
-    box-shadow: 0px 0px 28px 0px rgba(52,49,74,0.32);
+    -webkit-box-shadow: 0px 0px 28px 0px rgba(52, 49, 74, 0.32);
+    -moz-box-shadow: 0px 0px 28px 0px rgba(52, 49, 74, 0.32);
+    box-shadow: 0px 0px 28px 0px rgba(52, 49, 74, 0.32);
     background-color: #686af3 !important;
 }
 
-.profile-icon-mp{
+.profile-icon-mp {
     font-size: 1rem !important;
     padding-left: 3%;
 }
 
-
-.content-mp{
+.content-mp {
     height: auto !important;
     display: flex !important;
     background-color: none !important;
 }
 
-.content-1-mp{
+.content-1-mp {
     height: auto !important;
     color: #eeeff8 !important;
     background-color: #eeeff8;
 }
 
-.content-2-mp{
+.content-2-mp {
     height: auto;
     background-color: #eeeff8;
 }
-.ant-card-body{
+
+.ant-card-body {
     padding: 10px !important;
-    font-size: .8rem;    
+    font-size: .8rem;
 }
 
-
-.scanner-mp{
+.scanner-mp {
     height: auto;
-    background-color:  white;
+    background-color: white;
     margin-top: 15px;
     border-radius: 5px;
 }
-.ant-card-cover{
+
+.ant-card-cover {
     border: 5px solid #ffffff;
 }
-.header-fixed-mp{
+
+.header-fixed-mp {
     z-index: 1;
 }
 
-
-
-
-
-
-
-.scanner-heading-mp{
+.scanner-heading-mp {
     text-align: center;
-    font-size: 1rem;    
+    font-size: 1rem;
 }
 
-
-
-.content-view-controls-mp{
+.content-view-controls-mp {
     height: 85vh;
     width: 100%;
     background-color: white;
@@ -91,240 +115,233 @@
     border-top-left-radius: 5px;
 }
 
-
-
-
-.content-view-main-mp{
+.content-view-main-mp {
     background-color: white;
 }
 
-#test{
+#test {
     height: 175px;
 }
 
-.nav-mp{
-    height : 100%;
-    width : 100%;
+.nav-mp {
+    height: 100%;
+    width: 100%;
 }
 
-.ant-slider-mark{
-    font-size : 0.6rem !important;
+.ant-slider-mark {
+    font-size: 0.6rem !important;
 }
 
-.ant-slider-vertical .ant-slider-mark{
+.ant-slider-vertical .ant-slider-mark {
     left: 6px !important;
     width: 15px !important;
 }
 
-.ant-slider-vertical{
+.ant-slider-vertical {
     margin: 25px 6px !important;
     padding: 0 0px !important;
 }
 
-.ol-overviewmap-box{
+.ol-overviewmap-box {
     background-color: blue;
     opacity: .4;
 }
 
-.ant-divider-horizontal{
+.ant-divider-horizontal {
     margin: 5px 0 !important;
 }
 
-.logo-mp{
+.logo-mp {
     background-image: url(../img/logo-05.png);
 }
 
-.ol-control{
+.ol-control {
     position: unset !important;
     border-radius: 0 !important;
     padding: 0 !important;
 }
 
-.ol-control button{
+.ol-control button {
     height: 2rem !important;
-    width: 100% !important ;
+    width: 100% !important;
     border-radius: 0 !important;
     margin: 0 !important;
 }
-
-
-
 
 #map2 .ol-zoom .ol-zoom-out {
     margin-top: 204px;
 }
 
 #map2 .ol-zoomslider {
-  background-color: transparent;
-  top: 2.3em;
+    background-color: transparent;
+    top: 2.3em;
 }
 
 #map2 .ol-touch .ol-zoom .ol-zoom-out {
-  margin-top: 212px;
+    margin-top: 212px;
 }
+
 #map2 .ol-touch .ol-zoomslider {
-  top: 2.75em;
+    top: 2.75em;
 }
 
 #map2 .ol-zoom-in.ol-has-tooltip:hover [role=tooltip],
 #map2 .ol-zoom-in.ol-has-tooltip:focus [role=tooltip] {
-  top: 3px;
+    top: 3px;
 }
 
 #map2 .ol-zoom-out.ol-has-tooltip:hover [role=tooltip],
 #map2 .ol-zoom-out.ol-has-tooltip:focus [role=tooltip] {
-  top: 232px;
+    top: 232px;
 }
 
-
-
-.ol-zoom{
+.ol-zoom {
     background-color: #01233F !important;
 }
 
-.ol-full-screen{
+.ol-full-screen {
     background-color: #01233F !important;
 }
 
-.content-view-controls-mp{
+.content-view-controls-mp {
     background-color: #01233F !important;
 }
 
-.ant-slider-mark-text{
-    color : white !important ;
+.ant-slider-mark-text {
+    color: white !important;
 }
 
-.profile-img-mp{
+.profile-img-mp {
     background-color: #01233F !important;
 }
 
-
-#imagesContainer{
+#imagesContainer {
     height: 97.5%;
     width: 100%
 }
-.imagesContainer[_ngcontent-c0]{
+
+.imagesContainer[_ngcontent-c0] {
     padding: 0;
     border: none;
 }
-.btn-fs-mp{
+
+.btn-fs-mp {
     width: 100%;
     border: none !important;
     border-radius: 0px !important;
-    background-color: rgba(0,60,136,0.5) !important;
+    background-color: rgba(0, 60, 136, 0.5) !important;
     padding: none !important;
 }
-.btn-fs-mp > i {
+
+.btn-fs-mp>i {
     text-align: center;
     color: white;
 }
-.mat-card-image{
+
+.mat-card-image {
     height: 100%;
 }
 
-
-.h-s1{
+.h-s1 {
     margin-top: 3%;
     height: 300px;
 }
 
-
-
-.h-s2{
+.h-s2 {
     margin-top: 3%;
     height: 350px;
 }
 
-.h-s3{
+.h-s3 {
     margin-top: 4%;
     height: 300px;
 }
 
-.h-s4{
+.h-s4 {
     margin-top: 4%;
     height: 350px;
 }
 
-
-.h-s3-bg{
+.h-s3-bg {
     background-color: #01233F;
-    
 }
 
-
-.h-logo{
+.h-logo {
     background-image: url(../img/logo-06.png);
     background-repeat: no-repeat;
     background-size: 100%;
-    height : 80%;
+    height: 80%;
     width: 80%;
     background-position: right;
 }
 
-.nav-pad{
+.nav-pad {
     padding-top: 12px;
 }
 
-.h-s1 > h1 {
+.h-s1>h1 {
     font-size: 2.5rem;
     padding-top: 5%;
     padding-bottom: 2%;
 }
-.h-s1 > span {
+
+.h-s1>span {
     padding-right: 5%;
 }
 
 .exp-btn {
-    text-align : "center";
-    background-color : #F65301 !important;
-    color : white;
+    text-align: "center";
+    background-color: #F65301 !important;
+    color: white;
     border: none;
 }
+
 .exp-btn:hover {
     transform: scale(1.05);
-    color : white;
+    color: white;
     font-weight: 500;
     border: none;
 }
-.login-btn{
-    text-align : "center";
-    background-color : #02233F !important;
-    color : white;
+
+.login-btn {
+    text-align: "center";
+    background-color: #02233F !important;
+    color: white;
     border: none;
 }
 
 .login-btn:hover {
     transform: scale(1.05);
-    color : white;
+    color: white;
     font-weight: 500;
     border: none;
 }
 
-.bt1-btn{
-    text-align : "center";
-    background-color : #02233F !important;
-    color : white !important;
+.bt1-btn {
+    text-align: "center";
+    background-color: #02233F !important;
+    color: white !important;
     border: none !important;
 }
 
 .bt2-btn {
-    text-align : "center";
-    background-color : #F65301 !important;
-    color : white !important;
+    text-align: "center";
+    background-color: #F65301 !important;
+    color: white !important;
     border: none !important;
 }
 
-.bt1-btn:hover{
-    color : white !important;
+.bt1-btn:hover {
+    color: white !important;
     border: none !important;
 }
 
-.bt2-btn:hover{
-    color : white !important;
+.bt2-btn:hover {
+    color: white !important;
     border: none !important;
 }
 
-.blue-crd{
+.blue-crd {
     height: 80%;
     background-color: #02233F;
     border-radius: 5px;
@@ -333,23 +350,23 @@
     margin-bottom: 10%;
 }
 
-.blue-crd > div {
+.blue-crd>div {
     padding: 8%;
     height: 100%;
     color: white
 }
 
-.blue-crd > div > h2 {
+.blue-crd>div>h2 {
     color: white !important;
 }
 
-.h-s3-content > h1 {
-    font-size: 2.5rem ;
+.h-s3-content>h1 {
+    font-size: 2.5rem;
     color: #ffffff !important;
 }
 
-.h-s3-content > p {
-    font-size: 1.5rem ;
+.h-s3-content>p {
+    font-size: 1.5rem;
     color: #ffffff !important;
 }
 
@@ -357,7 +374,7 @@
     height: 100%;
 }
 
-.fractal-crd{
+.fractal-crd {
     height: 60%;
     background-color: #02233F;
     border-radius: 5px;
@@ -366,12 +383,12 @@
     margin-bottom: 3%;
 }
 
-.fractal-crd > div {
+.fractal-crd>div {
     padding: 8%;
     height: 100%;
     color: white
 }
 
-.fractal-crd > div > h2 {
+.fractal-crd>div>h2 {
     color: white !important;
 }
